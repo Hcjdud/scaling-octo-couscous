@@ -15,7 +15,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express-rate-limit": "^6.9.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "express-session": "^1.17.3",      // ← ДОБАВЬТЕ ЭТУ СТРОКУ
+    "cookie-parser": "^1.4.6",         // ← И ЭТУ (тоже может понадобиться)
+    "jsonwebtoken": "^9.0.2"           // ← И ЭТУ
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
