@@ -1,448 +1,73 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VirusGift.pro — Вирусные подарки в Telegram</title>
-    
-    <!-- Мета теги -->
-    <meta name="description" content="VirusGift.pro - вирусные подарки с крутыми механиками прямо в Telegram. Играй, получай подарки, делись с друзьями!">
-    <meta name="keywords" content="подарки, игры, telegram, вирусные, механики, развлечения">
-    <meta name="author" content="VirusGift Team">
-    <meta name="theme-color" content="#ff3366">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Telegram Web App -->
-    <meta name="telegram:channel" content="@virusgift">
-    <meta property="tg:channel" content="@virusgift">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="VirusGift.pro">
-    <meta property="og:description" content="Вирусные подарки с механиками в Telegram. Твои фото и имя из Telegram автоматически подгружаются!">
-    <meta property="og:image" content="https://virusgift.pro/assets/img/preview.jpg">
-    <meta property="og:url" content="https://virusgift.pro">
-    <meta property="og:type" content="website">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VirusGift.pro">
-    <meta name="twitter:description" content="Вирусные подарки в Telegram">
-    <meta name="twitter:image" content="https://virusgift.pro/assets/img/preview.jpg">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
-    <link rel="apple-touch-icon" href="/assets/img/icon-192.png">
-    
-    <!-- Манифест -->
-    <link rel="manifest" href="/manifest.json">
-    
-    <!-- Preload критических ресурсов -->
-    <link rel="preload" href="/assets/css/style.css" as="style">
-    <link rel="preload" href="/assets/js/telegram-web-app.js" as="script">
-    <link rel="preload" href="/assets/img/logo.svg" as="image">
-    
-    <!-- Стили -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/assets/css/animations.css">
-    <link rel="stylesheet" href="/assets/css/themes.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
-    <link rel="stylesheet" href="/assets/css/mechanics.css">
-    
-    <!-- Preconnect для внешних ресурсов -->
-    <link rel="preconnect" href="https://telegram.org">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-</head>
-<body>
-    <!-- Экран загрузки -->
-    <div id="tg-loading" class="tg-loading">
-        <div class="tg-spinner"></div>
-        <div class="loading-text">Загрузка VirusGift.pro...</div>
-        <div class="loading-hint">Подгружаем твое фото из Telegram</div>
-        <div class="loading-progress">
-            <div class="progress-bar" id="loadingProgress"></div>
-        </div>
-    </div>
+<!doctype html>
+<html class="overflow-hidden" lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<title>Virus</title>
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript">
+			;(function (m, e, t, r, i, k, a) {
+				m[i] =
+					m[i] ||
+					function () {
+						;(m[i].a = m[i].a || []).push(arguments)
+					}
+				m[i].l = 1 * new Date()
+				for (var j = 0; j < document.scripts.length; j++) {
+					if (document.scripts[j].src === r) {
+						return
+					}
+				}
+				;((k = e.createElement(t)),
+					(a = e.getElementsByTagName(t)[0]),
+					(k.async = 1),
+					(k.src = r),
+					a.parentNode.insertBefore(k, a))
+			})(
+				window,
+				document,
+				'script',
+				'https://mc.yandex.ru/metrika/tag.js',
+				'ym'
+			)
 
-    <!-- Основное приложение -->
-    <div id="app" style="display: none;">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="container">
-                <button class="menu-toggle" id="menuToggle" aria-label="Меню">
-                    <span class="menu-icon"></span>
-                </button>
-                
-                <a href="/" class="logo">
-                    <img src="/assets/img/logo.svg" alt="VirusGift.pro" width="120" height="32">
-                </a>
-                
-                <div class="header-actions">
-                    <button class="search-toggle" id="searchToggle" aria-label="Поиск">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </button>
-                    
-                    <div class="tg-user" id="tgUser"></div>
-                </div>
-            </div>
-            
-            <!-- Поиск -->
-            <div class="search-bar" id="searchBar">
-                <div class="container">
-                    <input type="text" id="searchInput" placeholder="Поиск механик и подарков..." autocomplete="off">
-                    <button class="search-close" id="searchClose">✕</button>
-                </div>
-                <div class="search-results" id="searchResults"></div>
-            </div>
-        </header>
+			ym(100614651, 'init', {
+				clickmap: true,
+				trackLinks: true,
+				accurateTrackBounce: true,
+				webvisor: true,
+			})
+		</script>
+		<!-- /Yandex.Metrika counter -->
+		<script type="module" crossorigin src="/assets/index-vAd71z0q.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/index-CCYcQ1ef.css">
+	</head>
 
-        <!-- Боковое меню -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <img src="/assets/img/logo.svg" alt="VirusGift.pro" class="sidebar-logo" width="100" height="27">
-                <button class="sidebar-close" id="sidebarClose" aria-label="Закрыть">✕</button>
-            </div>
-            
-            <div class="sidebar-content">
-                <div class="sidebar-user-section" id="tgSidebarInfo"></div>
-                
-                <nav class="sidebar-nav">
-                    <a href="#mechanics" class="sidebar-link">
-                        <span class="sidebar-icon">🎮</span>
-                        <span class="sidebar-text">Механики</span>
-                        <span class="sidebar-badge" id="mechanicsCount">8</span>
-                    </a>
-                    <a href="#gifts" class="sidebar-link">
-                        <span class="sidebar-icon">🎁</span>
-                        <span class="sidebar-text">Подарки</span>
-                        <span class="sidebar-badge" id="giftsCount">20</span>
-                    </a>
-                    <a href="#rating" class="sidebar-link">
-                        <span class="sidebar-icon">🏆</span>
-                        <span class="sidebar-text">Рейтинг</span>
-                    </a>
-                    <a href="#profile" class="sidebar-link">
-                        <span class="sidebar-icon">👤</span>
-                        <span class="sidebar-text">Профиль</span>
-                    </a>
-                    <a href="#inventory" class="sidebar-link">
-                        <span class="sidebar-icon">📦</span>
-                        <span class="sidebar-text">Инвентарь</span>
-                        <span class="sidebar-badge" id="inventoryCount">0</span>
-                    </a>
-                    <a href="#achievements" class="sidebar-link">
-                        <span class="sidebar-icon">🏅</span>
-                        <span class="sidebar-text">Достижения</span>
-                    </a>
-                    <a href="#invite" class="sidebar-link">
-                        <span class="sidebar-icon">📨</span>
-                        <span class="sidebar-text">Пригласить друзей</span>
-                    </a>
-                    <a href="#contacts" class="sidebar-link">
-                        <span class="sidebar-icon">📞</span>
-                        <span class="sidebar-text">Контакты</span>
-                    </a>
-                </nav>
-                
-                <div class="sidebar-settings">
-                    <div class="setting-item">
-                        <span class="setting-label">Звук</span>
-                        <label class="switch">
-                            <input type="checkbox" id="soundToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <span class="setting-label">Вибрация</span>
-                        <label class="switch">
-                            <input type="checkbox" id="vibrationToggle" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <span class="setting-label">Тема</span>
-                        <button class="theme-toggle" id="themeToggle">🌙</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sidebar-footer">
-                <div class="sidebar-version">v3.0.0</div>
-                <div class="sidebar-copyright">© 2025 VirusGift.pro</div>
-            </div>
-        </div>
-        <div class="overlay" id="overlay"></div>
-
-        <!-- Основной контент -->
-        <main>
-            <!-- Hero секция -->
-            <section class="hero">
-                <div class="container">
-                    <h1 class="hero-title">Запускай вирусные подарки</h1>
-                    <p class="hero-subtitle">Твое фото и имя уже подгружены из Telegram</p>
-                    
-                    <div class="hero-stats" id="heroStats">
-                        <div class="stat-item">
-                            <span class="stat-value" id="totalUsers">1,234</span>
-                            <span class="stat-label">пользователей</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" id="totalGifts">5,678</span>
-                            <span class="stat-label">подарков</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-value" id="onlineNow">123</span>
-                            <span class="stat-label">онлайн</span>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-buttons">
-                        <a href="#mechanics" class="btn btn-primary btn-large">
-                            <span>Играть</span>
-                            <span class="btn-icon">🎮</span>
-                        </a>
-                        <button class="btn btn-outline btn-large" id="shareButton">
-                            <span>Поделиться</span>
-                            <span class="btn-icon">📤</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Механики -->
-            <section id="mechanics" class="mechanics">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>Все механики</h2>
-                        <div class="section-actions">
-                            <button class="btn-icon" id="refreshMechanics" title="Обновить">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="mechanics-tabs">
-                        <button class="tab-btn active" data-tab="all">Все</button>
-                        <button class="tab-btn" data-tab="popular">Популярные</button>
-                        <button class="tab-btn" data-tab="new">Новые</button>
-                        <button class="tab-btn" data-tab="my">Мои</button>
-                    </div>
-                    
-                    <div class="mechanics-grid" id="mechanicsContainer">
-                        <!-- JS будет заполнять -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Подарки -->
-            <section id="gifts" class="gifts">
-                <div class="container">
-                    <div class="section-header">
-                        <h2>Подарки и фото</h2>
-                        <div class="section-actions">
-                            <select class="sort-select" id="giftSort">
-                                <option value="new">Новые</option>
-                                <option value="popular">Популярные</option>
-                                <option value="liked">Любимые</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="gifts-grid" id="giftsContainer">
-                        <!-- JS будет заполнять -->
-                    </div>
-                    
-                    <button class="btn btn-secondary load-more" id="loadMoreGifts">
-                        <span>Загрузить ещё</span>
-                        <span class="btn-icon">↓</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Рейтинг -->
-            <section id="rating" class="rating">
-                <div class="container">
-                    <h2>Рейтинг игроков</h2>
-                    
-                    <div class="rating-period">
-                        <button class="period-btn active" data-period="all">Все время</button>
-                        <button class="period-btn" data-period="month">Месяц</button>
-                        <button class="period-btn" data-period="week">Неделя</button>
-                        <button class="period-btn" data-period="day">День</button>
-                    </div>
-                    
-                    <div class="rating-list" id="ratingList">
-                        <!-- JS будет заполнять -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Профиль -->
-            <section id="profile" class="profile">
-                <div class="container">
-                    <h2>Мой профиль</h2>
-                    
-                    <div class="profile-card" id="profileCard">
-                        <!-- JS будет заполнять -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Инвентарь -->
-            <section id="inventory" class="inventory">
-                <div class="container">
-                    <h2>Мой инвентарь</h2>
-                    
-                    <div class="inventory-grid" id="inventoryContainer">
-                        <!-- JS будет заполнять -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Достижения -->
-            <section id="achievements" class="achievements">
-                <div class="container">
-                    <h2>Достижения</h2>
-                    
-                    <div class="achievements-grid" id="achievementsContainer">
-                        <!-- JS будет заполнять -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Приглашения -->
-            <section id="invite" class="invite">
-                <div class="container">
-                    <h2>Пригласи друзей</h2>
-                    
-                    <div class="invite-card">
-                        <div class="invite-icon">🎁</div>
-                        <p class="invite-text">Пригласи друзей и получи бонусы!</p>
-                        
-                        <div class="invite-stats">
-                            <div class="invite-stat">
-                                <span class="stat-value" id="invitedCount">0</span>
-                                <span class="stat-label">приглашено</span>
-                            </div>
-                            <div class="invite-stat">
-                                <span class="stat-value" id="bonusCount">0</span>
-                                <span class="stat-label">бонусов</span>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary btn-large" id="inviteButton">
-                            <span>Пригласить</span>
-                            <span class="btn-icon">📨</span>
-                        </button>
-                        
-                        <div class="invite-link" id="inviteLinkContainer" style="display: none;">
-                            <input type="text" id="inviteLink" readonly>
-                            <button class="btn-icon" id="copyLink" title="Копировать">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Контакты -->
-            <section id="contacts" class="contacts">
-                <div class="container">
-                    <h2>Контакты</h2>
-                    
-                    <div class="contacts-content">
-                        <p class="contact-text">Поддержка: <a href="https://t.me/virusgift_support" target="_blank">@virusgift_support</a></p>
-                        
-                        <div class="social-links">
-                            <a href="https://vk.com/virusgift" target="_blank" class="social-link" title="VK">
-                                <img src="/assets/img/social/vk.svg" alt="VK" width="24" height="24">
-                            </a>
-                            <a href="https://t.me/virusgift" target="_blank" class="social-link" title="Telegram">
-                                <img src="/assets/img/social/tg.svg" alt="Telegram" width="24" height="24">
-                            </a>
-                            <a href="https://instagram.com/virusgift" target="_blank" class="social-link" title="Instagram">
-                                <img src="/assets/img/social/instagram.svg" alt="Instagram" width="24" height="24">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Футер -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-links">
-                    <a href="/privacy">Политика конфиденциальности</a>
-                    <a href="/terms">Условия использования</a>
-                    <a href="/support">Поддержка</a>
-                </div>
-                <div class="footer-copyright">
-                    © 2025 VirusGift.pro for Telegram
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Модальные окна -->
-    <div id="giftModal" class="modal">
-        <div class="modal-content">
-            <button class="close" aria-label="Закрыть">✕</button>
-            <div id="giftModalBody"></div>
-        </div>
-    </div>
-
-    <div id="mechanicModal" class="modal mechanic-modal">
-        <div class="modal-content mechanic-content">
-            <button class="close" aria-label="Закрыть">✕</button>
-            <div id="mechanicFrame"></div>
-        </div>
-    </div>
-
-    <div id="achievementModal" class="modal achievement-modal">
-        <div class="modal-content">
-            <button class="close" aria-label="Закрыть">✕</button>
-            <div id="achievementModalBody"></div>
-        </div>
-    </div>
-
-    <!-- Уведомления -->
-    <div id="notification" class="notification"></div>
-
-    <!-- Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <!-- Вендорские библиотеки -->
-    <script src="/assets/js/vendor/swiper.min.js"></script>
-    <script src="/assets/js/vendor/canvas-confetti.min.js"></script>
-    
-    <!-- Наши скрипты -->
-    <script src="/assets/js/utils.js"></script>
-    <script src="/assets/js/api.js"></script>
-    <script src="/assets/js/telegram-web-app.js"></script>
-    <script src="/assets/js/ui.js"></script>
-    <script src="/assets/js/mechanics.js"></script>
-    <script src="/assets/js/main.js"></script>
-    
-    <!-- Регистрация Service Worker -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('ServiceWorker registered:', registration.scope);
-                }).catch(error => {
-                    console.log('ServiceWorker registration failed:', error);
-                });
-            });
-        }
-    </script>
-</body>
-  </html>
+	<body class="select-none overflow-hidden">
+		<div id="app"></div>
+		<script src="https://telegram.org/js/telegram-web-app.js"></script>
+		<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+		<noscript
+			><div>
+				<img
+					src="https://mc.yandex.ru/watch/100614651"
+					style="position: absolute; left: -9999px"
+					alt=""
+				/></div
+		></noscript>
+	</body>
+</html>
